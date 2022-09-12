@@ -146,7 +146,7 @@
                                                     <constraint firstAttribute="width" constant="50" id="CzJ-Gp-DWL"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="EvC-SA-bgM">
                                                 <rect key="frame" x="0.0" y="34" width="50" height="34"/>
@@ -157,7 +157,7 @@
                                                             <constraint firstAttribute="width" constant="50" id="Tpw-8i-hqT"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -170,7 +170,7 @@
                                                             <constraint firstAttribute="width" constant="50" id="g7j-Sp-1pt"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -196,11 +196,14 @@
                     <connections>
                         <outlet property="blueLabel" destination="bCF-WF-4XK" id="2Vl-OD-bD8"/>
                         <outlet property="blueSlider" destination="MHG-Kb-IuM" id="VKe-Wb-K4i"/>
+                        <outlet property="blueTextField" destination="Ey1-cy-rJs" id="3xx-a3-cau"/>
                         <outlet property="colorBoardView" destination="Vq3-Y5-RTt" id="ncM-jU-AS9"/>
                         <outlet property="greenLabel" destination="FTs-E0-DD5" id="5Pm-5k-IK3"/>
                         <outlet property="greenSlider" destination="Tpg-fQ-yq2" id="2nR-JX-qlL"/>
+                        <outlet property="greenTextField" destination="hT7-pJ-lP0" id="UrW-c9-4fA"/>
                         <outlet property="redLabel" destination="WkB-ec-BhR" id="sDI-Hn-aX3"/>
                         <outlet property="redSlider" destination="KPQ-uf-EHJ" id="g6n-Rx-DDN"/>
+                        <outlet property="redTextField" destination="cws-t3-Nxo" id="F0w-0K-COA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

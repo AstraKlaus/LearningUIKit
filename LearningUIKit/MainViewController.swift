@@ -13,9 +13,9 @@ protocol SettingsViewControllerDelegate{
 
 class MainViewController: UIViewController {
     
-    var redValue: CGFloat = 255
-    var greenValue: CGFloat = 255
-    var blueValue: CGFloat = 255
+    var redValue: CGFloat = 1
+    var greenValue: CGFloat = 1
+    var blueValue: CGFloat = 1
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let settingsVC = segue.destination as? SettingsViewController else {return}

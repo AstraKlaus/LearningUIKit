@@ -19,6 +19,10 @@ class SettingsViewController: UIViewController {
     @IBOutlet var greenLabel: UILabel!
     @IBOutlet var blueLabel: UILabel!
     
+    @IBOutlet var redTextField: UITextField!
+    @IBOutlet var greenTextField: UITextField!
+    @IBOutlet var blueTextField: UITextField!
+    
     var redValue: CGFloat!
     var greenValue: CGFloat!
     var blueValue: CGFloat!
@@ -39,6 +43,18 @@ class SettingsViewController: UIViewController {
         blueSlider.value = Float(blueValue)
         
         colorBoardView.backgroundColor = UIColor(red: redValue, green: greenValue, blue: blueValue, alpha: 1)
+        
+        redTextField.inputAccessoryView = toolBar()
+        redTextField.keyboardType = .decimalPad
+        
+        greenTextField.inputAccessoryView = toolBar()
+        greenTextField.keyboardType = .decimalPad
+        
+        blueTextField.inputAccessoryView = toolBar()
+        blueTextField.keyboardType = .decimalPad
+        
+        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tapGesture)
     }
     
     @IBAction func rgbSlidersAction() {
@@ -55,3 +71,42 @@ class SettingsViewController: UIViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
+extension SettingsViewController : UITextFieldDelegate{
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let newValue = textField.text else {return}
+        guard let colorValue = Float(newValue) else {return}
+        if textField == redTextField{
+            redSlider.value = colorValue
+            redLabel.text = String(colorValue)
+        }else if textField == greenTextField{
+            greenSlider.value = colorValue
+            greenLabel.text = String(colorValue)
+        }else{
+            blueSlider.value = colorValue
+            blueLabel.text = String(colorValue)
+        }
+        
+    }
+}
+
+// MARK: - NumberPad Keyboard
+extension SettingsViewController{
+    func toolBar() -> UIToolbar{
+        let toolBar = UIToolbar()
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let buttonTitle = "Done"
+        let doneButton = UIBarButtonItem(title: buttonTitle, style: .done, target: self, action: #selector(onClickDoneButton))
+        doneButton.tintColor = .systemBlue
+        toolBar.setItems([space, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        return toolBar
+    }
+
+    @objc func onClickDoneButton(){
+        view.endEditing(true)
+    }
+}
