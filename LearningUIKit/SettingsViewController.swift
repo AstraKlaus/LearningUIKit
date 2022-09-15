@@ -23,10 +23,6 @@ class SettingsViewController: UIViewController {
     @IBOutlet var greenTextField: UITextField!
     @IBOutlet var blueTextField: UITextField!
     
-    var redValue: CGFloat!
-    var greenValue: CGFloat!
-    var blueValue: CGFloat!
-    
     var delegate: SettingsViewControllerDelegate!
     var backColor: UIColor!
     
@@ -34,79 +30,103 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         colorBoardView.layer.cornerRadius = 10
         
-        redLabel.text = String(format: "%.2f", Float(redValue))
-        greenLabel.text = String(format: "%.2f", Float(greenValue))
-        blueLabel.text = String(format: "%.2f", Float(blueValue))
+        setSliders()
+        colorBoardView.backgroundColor = backColor
+    }
+    
+    private func setSliders(){
+        let rgbColor = CIColor(color: backColor)
         
-        redSlider.value = Float(redValue)
-        greenSlider.value = Float(greenValue)
-        blueSlider.value = Float(blueValue)
-        
-        colorBoardView.backgroundColor = UIColor(red: redValue, green: greenValue, blue: blueValue, alpha: 1)
-        
-        redTextField.inputAccessoryView = toolBar()
-        redTextField.keyboardType = .decimalPad
-        
-        greenTextField.inputAccessoryView = toolBar()
-        greenTextField.keyboardType = .decimalPad
-        
-        blueTextField.inputAccessoryView = toolBar()
-        blueTextField.keyboardType = .decimalPad
-        
-        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tapGesture)
+        redSlider.value = Float(rgbColor.red)
+        greenSlider.value = Float(rgbColor.green)
+        blueSlider.value = Float(rgbColor.blue)
+    }
+    
+    @objc func onClickDoneButton(){
+        view.endEditing(true)
     }
     
     @IBAction func rgbSlidersAction() {
-        redLabel.text = String(format: "%.2f", redSlider.value)
-
-        greenLabel.text = String(format: "%.2f", greenSlider.value)
-
-        blueLabel.text = String(format: "%.2f", blueSlider.value)
+        setValue(for: redLabel, greenLabel, blueLabel)
+        setValue(for: redTextField, greenTextField, blueTextField)
         
         colorBoardView.backgroundColor = UIColor(red: CGFloat(redSlider.value), green: CGFloat(greenSlider.value), blue: CGFloat(blueSlider.value), alpha: 1)
     }
+    
     @IBAction func doneButtonPressed() {
-        delegate.setNewColor(red: CGFloat(redSlider.value), green: CGFloat(greenSlider.value), blue: CGFloat(blueSlider.value))
+        delegate.setNewColor(colorBoardView.backgroundColor ?? .white)
+        dismiss(animated: true)
     }
 }
 
 // MARK: - UITextFieldDelegate
 extension SettingsViewController : UITextFieldDelegate{
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let newValue = textField.text else {return}
-        guard let colorValue = Float(newValue) else {return}
-        if textField == redTextField{
+        if let colorValue = Float(newValue){
+        
+        switch textField{
+        case redTextField:
             redSlider.value = colorValue
             redLabel.text = String(colorValue)
-        }else if textField == greenTextField{
+        case greenTextField:
             greenSlider.value = colorValue
             greenLabel.text = String(colorValue)
-        }else{
+        default:
             blueSlider.value = colorValue
             blueLabel.text = String(colorValue)
         }
-        
+        }else{
+            showAlert(title: "Incorrect type", message: "Please enter the float number")
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        textField.inputAccessoryView = toolBar
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onClickDoneButton))
+        toolBar.items = [space, doneButton]
     }
 }
 
-// MARK: - NumberPad Keyboard
-extension SettingsViewController{
-    func toolBar() -> UIToolbar{
-        let toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = true
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let buttonTitle = "Done"
-        let doneButton = UIBarButtonItem(title: buttonTitle, style: .done, target: self, action: #selector(onClickDoneButton))
-        doneButton.tintColor = .systemBlue
-        toolBar.setItems([space, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
-        return toolBar
-    }
 
-    @objc func onClickDoneButton(){
-        view.endEditing(true)
+// MARK: - SetValue
+extension SettingsViewController{
+    func setValue(for labels: UILabel...){
+        labels.forEach{lable in
+            switch lable{
+            case redLabel:
+                redLabel.text = String(format: "%.2f", redSlider.value)
+            case greenLabel:
+                greenLabel.text = String(format: "%.2f", greenSlider.value)
+            default:
+                blueLabel.text = String(format: "%.2f", blueSlider.value)
+            }
+        }
+    }
+    
+    func setValue(for textFields: UITextField...){
+        textFields.forEach{textField in
+            switch textField{
+            case redTextField:
+                redTextField.text = String(format: "%.2f", redSlider.value)
+            case greenTextField:
+                greenTextField.text = String(format: "%.2f", greenSlider.value)
+            default:
+                blueTextField.text = String(format: "%.2f", blueSlider.value)
+            }
+        }
+    }
+}
+// MARK: - ShowAlert
+extension SettingsViewController{
+    private func showAlert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 }
