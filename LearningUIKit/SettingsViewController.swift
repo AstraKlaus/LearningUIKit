@@ -29,12 +29,14 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         colorBoardView.layer.cornerRadius = 10
-        
         setSliders()
+        setValue(for: redLabel, greenLabel, blueLabel)
+        setValue(for: redTextField, greenTextField, blueTextField)
+        
         colorBoardView.backgroundColor = backColor
     }
     
-    private func setSliders(){
+    func setSliders(){
         let rgbColor = CIColor(color: backColor)
         
         redSlider.value = Float(rgbColor.red)
@@ -42,7 +44,7 @@ class SettingsViewController: UIViewController {
         blueSlider.value = Float(rgbColor.blue)
     }
     
-    @objc func onClickDoneButton(){
+    @objc private func didTapDone() {
         view.endEditing(true)
     }
     
@@ -60,35 +62,56 @@ class SettingsViewController: UIViewController {
 }
 
 // MARK: - UITextFieldDelegate
-extension SettingsViewController : UITextFieldDelegate{
+extension SettingsViewController: UITextFieldDelegate {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let newValue = textField.text else {return}
-        if let colorValue = Float(newValue){
+        showAlert(title: "Wrong format!", message: "Please enter correct value")
+        guard let text = textField.text else { return }
         
-        switch textField{
-        case redTextField:
-            redSlider.value = colorValue
-            redLabel.text = String(colorValue)
-        case greenTextField:
-            greenSlider.value = colorValue
-            greenLabel.text = String(colorValue)
-        default:
-            blueSlider.value = colorValue
-            blueLabel.text = String(colorValue)
+        if let currentValue = Float(text) {
+            switch textField {
+            case redTextField:
+                redSlider.setValue(currentValue, animated: true)
+                setValue(for: redLabel)
+            case greenTextField:
+                greenSlider.setValue(currentValue, animated: true)
+                setValue(for: greenLabel)
+            default:
+                blueSlider.setValue(currentValue, animated: true)
+                setValue(for: blueLabel)
+            }
+            return
         }
-        }else{
-            showAlert(title: "Incorrect type", message: "Please enter the float number")
-        }
+        
+        showAlert(title: "Wrong format!", message: "Please enter correct value")
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        let toolBar = UIToolbar()
-        toolBar.sizeToFit()
-        textField.inputAccessoryView = toolBar
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onClickDoneButton))
-        toolBar.items = [space, doneButton]
+        showAlert(title: "Wrong format!", message: "Please enter correct value")
+        textField.resignFirstResponder()
+        let keyboardToolbar = UIToolbar()
+        textField.keyboardType = .decimalPad
+        keyboardToolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(didTapDone)
+        )
+        
+        let flexBarButton = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        
+        keyboardToolbar.items = [flexBarButton, doneButton]
+        textField.inputAccessoryView = keyboardToolbar
     }
 }
 
@@ -123,7 +146,7 @@ extension SettingsViewController{
 }
 // MARK: - ShowAlert
 extension SettingsViewController{
-    private func showAlert(title: String, message: String){
+     func showAlert(title: String, message: String){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)

@@ -23,8 +23,7 @@ class MainViewController: UIViewController {
 // MARK: - SettingsViewControllerDelegate
 extension MainViewController: SettingsViewControllerDelegate{
     func setNewColor(_ color: UIColor) {
-        let rgbColored = CIColor(color: color)
-        view.backgroundColor = UIColor(red: rgbColored.red, green: rgbColored.green, blue: rgbColored.blue, alpha: 1)
+        view.backgroundColor = color
     }
 }
 

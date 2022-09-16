@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4ut-uJ-F6m">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -145,7 +146,7 @@
                                                     <constraint firstAttribute="width" constant="50" id="CzJ-Gp-DWL"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="EvC-SA-bgM">
                                                 <rect key="frame" x="0.0" y="34" width="50" height="34"/>
@@ -156,7 +157,7 @@
                                                             <constraint firstAttribute="width" constant="50" id="Tpw-8i-hqT"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -169,7 +170,7 @@
                                                             <constraint firstAttribute="width" constant="50" id="g7j-Sp-1pt"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -202,7 +203,7 @@
                         <outlet property="greenTextField" destination="hT7-pJ-lP0" id="UrW-c9-4fA"/>
                         <outlet property="redLabel" destination="WkB-ec-BhR" id="sDI-Hn-aX3"/>
                         <outlet property="redSlider" destination="KPQ-uf-EHJ" id="g6n-Rx-DDN"/>
-                        <outlet property="redTextField" destination="cws-t3-Nxo" id="F0w-0K-COA"/>
+                        <outlet property="redTextField" destination="cws-t3-Nxo" id="ecT-PH-5sv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
